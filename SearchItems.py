@@ -4,8 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 
-def take_data_from_json(dir,*args):
-    f = open(dir)
+def take_data_from_json(elements,*args):
+    f = open(elements)
     data = json.load(f)
     f.close()
     return (data[arg] for arg in args)
@@ -53,8 +53,8 @@ class SearchItems:
 
 
     def getting_search_element(self):
-        dir = self.itemList
-        f = open(dir)
+        elements = self.itemList
+        f = open(elements)
         elements = list()
         for line in f:
             element = line.rstrip("\n").replace(" ","")
@@ -87,9 +87,9 @@ class SearchItems:
         return existing_profile, no_profile
 
 
-    def incorporate_issue(log_in,elements):
+    def existenceChecker(self,log_in,elements):
         # Working process
-        exists, notExist = check_item(log_in,elements)
+        exists, notExist = self.check_item(log_in,elements)
         notExistUnique = set(notExist)
         output_json_incorporate("result.json",exists,notExistUnique)
         print(notExistUnique)
@@ -99,11 +99,11 @@ class SearchItems:
 
 
 
-    def check_profile(dir,cred,url):
+    def check_profile(self,elements):
         options = Options()
         options.headless = True
         driver = webdriver.Chrome(options=options)
-        log_in = login_to_site(driver,cred,url) #Login in to dcrm
-        elements = getting_search_element(dir)
-        return incorporate_issue(log_in,elements)
+        log_in = self.login_to_site(driver) #Login in to dcrm
+        items = self.getting_search_element(elements)
+        return self.existenceChecker(log_in,items)
 
