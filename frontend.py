@@ -23,23 +23,21 @@ def output_json_incorporate(filename,exists,notExist):
 class SearchItems:
 
     def __init__(self,
-                itemList,
+                itemListDirectory,
                 searchField,
-                credPath,
+                credentialsPathDirectory,
                 clickXPath,
-                entryField,
                 searchTag,
                 ) -> None:
         self.searchField = searchField
-        self.itemList = itemList
-        self.credPath = credPath
+        self.itemListDirectory = itemListDirectory
+        self.credentialsPathDirectory = credentialsPathDirectory
         self.clickXPath = clickXPath # Link to enter
-        self.entryField = entryField # where to entry
         self.searchTag = searchTag # td, which tag to count to check existence
 
 
     def login_to_site(self,driver):
-        cred = self.credPath
+        cred = self.credentialsPathDirectory
         url, username, password = take_data_from_json(cred,'url','username','password')
         driver.get(url)
         usernameField = driver.find_element(By.NAME,'username')
@@ -53,7 +51,7 @@ class SearchItems:
 
 
     def getting_search_element(self):
-        elements = self.itemList
+        elements = self.itemListDirectory
         f = open(elements)
         elements = list()
         for line in f:
@@ -99,7 +97,7 @@ class SearchItems:
 
 
 
-    def check_profile(self,elements):
+    def search_initiator(self,elements):
         options = Options()
         options.headless = True
         driver = webdriver.Chrome(options=options)
