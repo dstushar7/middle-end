@@ -19,10 +19,12 @@ profile_check = SearchItems(item_list,
 
 numbers = profile_check.search_initiator()
 
-# To Solve issue
-oracle_db = OracleOperations(db_credentials_path,
-                            oracle_client_dir)
 
-for msisdn in numbers:
-    query = "INSERT INTO TBL_BIOMETRIC_TEMP(MSISDN,STATUS) VALUES ("+str(msisdn)+",  '1')"
-    oracle_db.execute_query(query)
+
+# To Solve issue, Uncomment lines
+# oracle_db = OracleOperations(db_credentials_path,
+#                             oracle_client_dir)
+
+# for msisdn in numbers:
+#     query = "INSERT INTO TBL_BIOMETRIC_TEMP(MSISDN,STATUS) VALUES ("+str(msisdn)+",  '1')"
+#     oracle_db.execute_query(query)

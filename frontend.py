@@ -1,24 +1,7 @@
-import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-
-
-def take_data_from_json(elements,*args):
-    f = open(elements)
-    data = json.load(f)
-    f.close()
-    return (data[arg] for arg in args)
-
-
-def output_json_incorporate(filename,exists,notExist):
-        json_output = {
-            'Exists' : exists,
-            "Don't Exist" : list(notExist)
-        }
-        with open(filename, "w") as outfile:
-            outfile.write(json.dumps(json_output))
-
+import utility as util
 
 class SearchItems:
 
@@ -38,7 +21,7 @@ class SearchItems:
 
     def login_to_site(self,driver):
         cred = self.credentialsPathDirectory
-        url, username, password = take_data_from_json(cred,'url','username','password')
+        url, username, password = util.take_data_from_json(cred,'url','username','password')
         driver.get(url)
         usernameField = driver.find_element(By.NAME,'username')
         usernameField.send_keys(username)
@@ -51,14 +34,14 @@ class SearchItems:
 
 
     def getting_search_element(self):
-        elements = self.itemListDirectory
-        f = open(elements)
-        elements = list()
+        elementPath = self.itemListDirectory
+        f = open(elementPath)
+        elementPath = list()
         for line in f:
             element = line.rstrip("\n").replace(" ","")
-            elements.append(element)
+            elementPath.append(element)
         f.close()
-        return elements
+        return elementPath
 
 
     def check_item(self,driver,item_list):
@@ -85,11 +68,11 @@ class SearchItems:
         return existing_profile, no_profile
 
 
-    def existenceChecker(self,log_in,elements):
+    def existenceChecker(self,log_in,elementPath):
         # Working process
-        exists, notExist = self.check_item(log_in,elements)
+        exists, notExist = self.check_item(log_in,elementPath)
         notExistUnique = set(notExist)
-        output_json_incorporate("result.json",exists,notExistUnique)
+        util.output_json_incorporate("result.json",exists,notExistUnique)
         print(notExistUnique)
         print(len(notExistUnique)," item do not exist. \nCheck result.json file for more info")
         return list(notExistUnique)
@@ -102,6 +85,6 @@ class SearchItems:
         options.headless = True
         driver = webdriver.Chrome(options=options)
         log_in = self.login_to_site(driver) #Login in to dcrm
-        items = self.getting_search_element()
+        items = util.getting_search_element(self.itemListDirectory)
         return self.existenceChecker(log_in,items)
 

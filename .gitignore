@@ -133,3 +133,6 @@ dmypy.json
 
 # txt hide
 *.txt
+
+# excel script py
+excel.py
