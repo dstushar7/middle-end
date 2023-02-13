@@ -7,8 +7,8 @@ def take_data_from_json(elementPath,*args):
     return (data[arg] for arg in args)
 
 
-
-def output_json_incorporate(filename,exists,notExist):
+# two *args implement
+def output_json(filename,exists,notExist):
         json_output = {
             'Exists' : exists,
             "Don't Exist" : list(notExist)
@@ -18,7 +18,7 @@ def output_json_incorporate(filename,exists,notExist):
 
 
 
-def getting_search_element(elementPath):
+def getting_element_from_file(elementPath):
     f = open(elementPath)
     elementPath = list()
     for line in f:

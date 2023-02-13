@@ -33,17 +33,6 @@ class SearchItems:
 
 
 
-    def getting_search_element(self):
-        elementPath = self.itemListDirectory
-        f = open(elementPath)
-        elementPath = list()
-        for line in f:
-            element = line.rstrip("\n").replace(" ","")
-            elementPath.append(element)
-        f.close()
-        return elementPath
-
-
     def check_item(self,driver,item_list):
         no_profile = []
         existing_profile = []
@@ -72,7 +61,7 @@ class SearchItems:
         # Working process
         exists, notExist = self.check_item(log_in,elementPath)
         notExistUnique = set(notExist)
-        util.output_json_incorporate("result.json",exists,notExistUnique)
+        util.output_json("result.json",exists,notExistUnique)
         print(notExistUnique)
         print(len(notExistUnique)," item do not exist. \nCheck result.json file for more info")
         return list(notExistUnique)
@@ -85,6 +74,6 @@ class SearchItems:
         options.headless = True
         driver = webdriver.Chrome(options=options)
         log_in = self.login_to_site(driver) #Login in to dcrm
-        items = util.getting_search_element(self.itemListDirectory)
+        items = util.getting_element_from_file(self.itemListDirectory)
         return self.existenceChecker(log_in,items)
 
