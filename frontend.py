@@ -97,11 +97,11 @@ class SearchItems:
 
 
 
-    def search_initiator(self,elements):
+    def search_initiator(self):
         options = Options()
         options.headless = True
         driver = webdriver.Chrome(options=options)
         log_in = self.login_to_site(driver) #Login in to dcrm
-        items = self.getting_search_element(elements)
+        items = self.getting_search_element()
         return self.existenceChecker(log_in,items)
 

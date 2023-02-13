@@ -1,5 +1,5 @@
 import cx_Oracle
-import frontend as SI
+import frontEnd as SI
 
 class OracleOperations:
     def __init__(self, dbCredPath, oracleClientDir) -> None:
